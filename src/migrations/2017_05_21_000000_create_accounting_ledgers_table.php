@@ -8,17 +8,27 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAccountingLedgersTable extends Migration
 {
-    public function up(): void
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
     {
         Schema::create('accounting_ledgers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary(); // Use UUID for a globally unique identifier
             $table->string('name');
             $table->enum('type', ['asset', 'liability', 'equity', 'income', 'expense']);
             $table->timestamps();
         });
     }
 
-    public function down(): void
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
     {
         Schema::dropIfExists('accounting_ledgers');
     }
