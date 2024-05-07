@@ -8,20 +8,29 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAccountingJournalsTable extends Migration
 {
-    public function up(): void
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
     {
         Schema::create('accounting_journals', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('ledger_id')->nullable();
+            $table->uuid('id')->primary();
+            $table->unsignedBigInteger('ledger_id')->nullable();
+            $table->foreign('ledger_id')->references('id')->on('ledgers')->onDelete('cascade'); // Update constraints based on your needs
             $table->bigInteger('balance');
-            $table->string('currency', 5);
-            $table->string('morphed_type', 32);
-            $table->integer('morphed_id');
+            $table->char('currency', 5);
             $table->timestamps();
         });
     }
 
-    public function down(): void
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
     {
         Schema::dropIfExists('accounting_journals');
     }
