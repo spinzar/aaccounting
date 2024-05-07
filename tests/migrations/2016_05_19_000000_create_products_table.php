@@ -3,16 +3,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreateUsersTable
- */
 class CreateProductsTable extends Migration
 {
-	/**
-	 * @var array
-	 */
-	protected $guarded = ['id'];
-	
     /**
      * Run the migrations.
      *
@@ -21,12 +13,13 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary(); // Change to increments('id') if preferred
             $table->string('name');
-            $table->float('price');
+            $table->decimal('price', 8, 2); // Adjust precision and scale as needed
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *

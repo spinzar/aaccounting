@@ -13,13 +13,15 @@ class CreateAccountingLedgersTable extends Migration
     public function up()
     {
         Schema::create('accounting_ledgers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary(); // Change to increments('id') if preferred
             $table->string('name');
             $table->enum('type', ['asset', 'liability', 'equity', 'income', 'expense']);
+            $table->decimal('balance', 10, 2)->default(0); // Adjust precision and scale as needed
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      *

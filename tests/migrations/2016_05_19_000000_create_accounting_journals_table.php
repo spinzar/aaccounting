@@ -3,16 +3,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreateUsersTable
- */
 class CreateAccountingJournalsTable extends Migration
 {
-	/**
-	 * @var array
-	 */
-	protected $guarded = ['id'];
-	
     /**
      * Run the migrations.
      *
@@ -21,15 +13,19 @@ class CreateAccountingJournalsTable extends Migration
     public function up()
     {
         Schema::create('accounting_journals', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('ledger_id')->nullable();
+            $table->uuid('id')->primary(); // Change to increments('id') if preferred
+            $table->unsignedBigInteger('ledger_id')->nullable();
+            $table->foreign('ledger_id')->references('id')->on('ledgers')->onDelete('cascade'); // Update constraints based on your needs
             $table->bigInteger('balance');
-            $table->char('currency',5);
-	        $table->char('morphed_type',32);
-	        $table->integer('morphed_id');
+            $table->char('currency', 5);
             $table->timestamps();
+
+            // Add morphed_type and morphed_id only if you need polymorphic relationships
+            //$table->char('morphed_type', 32)->nullable();
+            //$table->integer('morphed_id')->nullable();
         });
     }
+
     /**
      * Reverse the migrations.
      *
